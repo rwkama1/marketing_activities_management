@@ -72,3 +72,11 @@ DROP TABLE  MarketingMedia;
 DROP TABLE  ActivityMedia;
 
 
+SELECT * FROM Customers;
+SELECT * FROM   MarketingCampaigns;
+SELECT * FROM  MarketingActivities;
+SELECT * FROM   ActivityParticipants;
+SELECT * FROM   MarketingActivities;
+SELECT * FROM   ActivityResults;
+SELECT * FROM   MarketingMedia;
+SELECT * FROM  ActivityMedia;

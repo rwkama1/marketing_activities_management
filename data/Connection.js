@@ -5,10 +5,10 @@ const sql  = require("mssql");
      static conection=async () => {
         let sqlconfig = {
          
-            user: 'rwkama72_SQLLogin_1',
-            password:'ixuar41o36',
-            database: 'project_management',
-           server: 'project_management.mssql.somee.com',
+            user: 'rwkama73_SQLLogin_1',
+            password:'mopug2wc4u',
+            database: 'marketing_activities_managemen',
+           server: 'marketing_activities_managemen.mssql.somee.com',
             options: {
                     trustedConnection: false,
                     enableArithAbort: true,
