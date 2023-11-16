@@ -1,5 +1,5 @@
 {
-  "name": "projects_management",
+  "name": "marketing_activities_management",
   "version": "1.0.0",
   "description": "This package contains a backend of what would be the logic of a marketing activities management software",
   "main": "app.js",
