@@ -1,4 +1,5 @@
 const { VarChar,Int ,Date} = require("mssql");
+const { DTOCustomer } = require("../entity/DTOCustomer");
 
 const { Conection } = require("./Connection");
 
@@ -104,6 +105,7 @@ class DataCustomer
              if(resultquery===undefined)
              {  
                  resultquery = result.recordset[0].updatesucess;
+                 
              }
          pool.close();
          return resultquery;
@@ -194,6 +196,160 @@ class DataCustomer
          return resultquery;
          
      }
+     static  updateCustomerEmail=async(idcustomer,Email)=>
+     {
+        
+         let resultquery;
+         let queryinsert = `
+ 
+             declare @CustomerID int = ${idcustomer};
+             DECLARE @Email VARCHAR(100) = '${Email}';
+            
+ 
+             IF NOT EXISTS (SELECT CustomerID 
+                FROM Customers WHERE CustomerID = @CustomerID)
+             BEGIN
+                 SELECT -1 AS notexistcustomer
+                 RETURN;
+             END
+             IF @Email LIKE '%@%.%'
+             AND @Email NOT LIKE '%@%@%'
+             AND @Email NOT LIKE '%..%'
+             AND PATINDEX('%[^a-zA-Z0-9.@_-]%', @Email) = 0
+             AND LEN(@Email) - LEN(REPLACE(@Email, '.', '')) <= 1
+             AND LEN(@Email) - LEN(REPLACE(@Email, '@', '')) = 1
+             AND LEN(@Email) - LEN(REPLACE(@Email, '-', '')) <= 1
+             AND RIGHT(@Email, 1) != '.'
+             AND CHARINDEX('.', @Email) > CHARINDEX('@', @Email) + 1
+             AND CHARINDEX('@', @Email) > 1
+         BEGIN
+             IF EXISTS (SELECT 1 FROM Customers WHERE EmailCustomer = @Email)
+             BEGIN
+                 SELECT -3 AS duplicateemail;
+             END
+             ELSE
+             BEGIN
+                UPDATE Customers SET
+                EmailCustomer = @Email
+                WHERE CustomerID = @CustomerID;
+
+                select 1 as updatesucess
+             END
+         END
+         ELSE
+         BEGIN
+             SELECT -2 AS incorrectemail;
+         END
+ 
+           `;
+           let pool = await Conection.conection();
+             const result = await pool.request()
+             .query(queryinsert)
+             resultquery = result.recordset[0].notexistcustomer;
+             if(resultquery===undefined)
+             {  
+                 resultquery = result.recordset[0].incorrectemail;
+                 if(resultquery===undefined)
+                 {  
+                     resultquery = result.recordset[0].duplicateemail;
+                     if(resultquery===undefined)
+                     {  
+                         resultquery = result.recordset[0].updatesucess;
+                     }
+                 }
+             }
+         pool.close();
+         return resultquery;
+         
+     }
+
+     //GET
+
+     static  getCustomerById=async(idcustomer)=>
+     {
+
+
+         let resultquery;
+ 
+         let queryinsert = `
+ 
+         DECLARE @CustomerID INT = ${idcustomer};
+         
+         IF NOT EXISTS (SELECT CustomerID 
+            FROM Customers WHERE CustomerID = @CustomerID)
+         BEGIN
+             SELECT -1 AS notexistcustomer
+             RETURN;
+         END
+        
+             SELECT 
+                 C.CustomerID, 
+                 C.CustomerName,
+                 C.EmailCustomer,
+                 C.PhoneCustomer,
+                C.AddressCustomer
+             FROM Customers C
+             WHERE CustomerID = @CustomerID;
+        
+ 
+         `
+         let pool = await Conection.conection();
+         const result = await pool.request()
+          .query(queryinsert)
+          resultquery = result.recordset[0].notexistcustomer;
+          if(resultquery===undefined)
+          {
+                 let dtocustomer = new DTOCustomer();   
+                 this.getInformation(dtocustomer,result.recordset[0]);
+                 resultquery=dtocustomer;
+ 
+         }
+      return resultquery;
+         
+     }
+     static  getCustomerByName=async(name="")=>
+     {
+
+
+         let arrayn=[];
+ 
+         let queryinsert = `
+ 
+             SELECT 
+                 C.CustomerID, 
+                 C.CustomerName,
+                 C.EmailCustomer,
+                 C.PhoneCustomer,
+                C.AddressCustomer
+             FROM Customers C
+             WHERE C.CustomerName like '%${name}%'
+        
+ 
+         `
+         let pool = await Conection.conection();
+         const result = await pool.request()
+          .query(queryinsert)
+          for (let re of result.recordset) {
+            let dtocustomer = new DTOCustomer();   
+            this.getInformation(dtocustomer,re);
+            arrayn.push(dtocustomer);
+         }
+          return arrayn;
+     
+         
+     }
+
+
+        //GET INFORMATION
+                
+        static getInformation(dtocustomer, result) {
+
+            dtocustomer.CustomerID = result.CustomerID;
+            dtocustomer.CustomerName = result.CustomerName;
+            dtocustomer.EmailCustomer = result.EmailCustomer;
+            dtocustomer.PhoneCustomer = result.PhoneCustomer;
+            dtocustomer.AddressCustomer = result.AddressCustomer;
+        }
 }
 
 module.exports = { DataCustomer };
