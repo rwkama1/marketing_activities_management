@@ -18,7 +18,11 @@ class DataCustomer
          DECLARE @PhoneCustomer VARCHAR(20) = '${PhoneCustomer}';
          DECLARE @AddressCustomer VARCHAR(255) = '${AddressCustomer}';
         
-         
+         IF LEN(@PhoneCustomer) != 10 AND @PhoneCustomer  LIKE '%[^0-9]%'
+         BEGIN
+             SELECT -3 AS incorrectphonenumber
+             RETURN;
+         END
          IF @Email LIKE '%@%.%'
              AND @Email NOT LIKE '%@%@%'
              AND @Email NOT LIKE '%..%'
@@ -58,13 +62,16 @@ class DataCustomer
                   if(resultquery===undefined)
                   {
                   resultquery = result.recordset[0].duplicateemail;
+                        if(resultquery===undefined)
+                        {
+                        resultquery = result.recordset[0].incorrectphonenumber;
+                        }
                   }
              }
          pool.close();
          return resultquery;
          
      }
-
      static  updateCustomerName=async(idcustomer,CustomerName)=>
      {
         
@@ -97,6 +104,91 @@ class DataCustomer
              if(resultquery===undefined)
              {  
                  resultquery = result.recordset[0].updatesucess;
+             }
+         pool.close();
+         return resultquery;
+         
+     }
+     static  updateCustomerPhone=async(idcustomer,PhoneCustomer)=>
+     {
+        
+         let resultquery;
+         let queryinsert = `
+ 
+             declare @CustomerID int = ${idcustomer};
+             DECLARE @PhoneCustomer VARCHAR(20) = '${PhoneCustomer}';
+            
+ 
+              IF NOT EXISTS (SELECT CustomerID 
+                 FROM Customers WHERE CustomerID = @CustomerID)
+              BEGIN
+                  SELECT -1 AS notexistcustomer
+                  RETURN;
+              END
+              IF LEN(@PhoneCustomer) != 10 AND @PhoneCustomer  LIKE '%[^0-9]%'
+             BEGIN
+                 SELECT -2 AS incorrectphonenumber
+                 RETURN;
+             END
+
+                 UPDATE Customers SET
+                 PhoneCustomer = @PhoneCustomer
+                 WHERE CustomerID = @CustomerID;
+ 
+                 select 1 as updatesucess
+             
+ 
+           `;
+           let pool = await Conection.conection();
+             const result = await pool.request()
+             .query(queryinsert)
+             resultquery = result.recordset[0].notexistcustomer;
+             if(resultquery===undefined)
+             {  
+                 resultquery = result.recordset[0].incorrectphonenumber;
+                 if(resultquery===undefined)
+                    {  
+                        resultquery = result.recordset[0].updatesucess;
+                    }
+             }
+         pool.close();
+         return resultquery;
+         
+     }
+     static  updateAddressCustomer=async(idcustomer,AddressCustomer)=>
+     {
+        
+         let resultquery;
+         let queryinsert = `
+ 
+             declare @CustomerID int = ${idcustomer};
+             DECLARE @AddressCustomer VARCHAR(20) = '${AddressCustomer}';
+            
+ 
+              IF NOT EXISTS (SELECT CustomerID 
+                 FROM Customers WHERE CustomerID = @CustomerID)
+              BEGIN
+                  SELECT -1 AS notexistcustomer
+                  RETURN;
+              END
+             
+
+                 UPDATE Customers SET
+                 AddressCustomer = @AddressCustomer
+                 WHERE CustomerID = @CustomerID;
+ 
+                 select 1 as updatesucess
+             
+ 
+           `;
+           let pool = await Conection.conection();
+             const result = await pool.request()
+             .query(queryinsert)
+             resultquery = result.recordset[0].notexistcustomer;
+             if(resultquery===undefined)
+             {  
+                 
+                        resultquery = result.recordset[0].updatesucess;
              }
          pool.close();
          return resultquery;
