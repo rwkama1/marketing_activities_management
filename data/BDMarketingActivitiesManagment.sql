@@ -24,7 +24,6 @@ CREATE TABLE MarketingCampaigns (
 
 go
 
-
 CREATE TABLE MarketingActivities (
     ActivityID  INT NOT NULL PRIMARY KEY Identity(1,1), 
     ActivityName VARCHAR(100) not null,
