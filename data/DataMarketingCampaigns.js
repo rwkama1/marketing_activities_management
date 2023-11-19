@@ -295,6 +295,112 @@ class DataMarketingCampaigns
            resultquery = result.recordset[0].Totalcost;
            return resultquery;
       }
+      static  getMarketingCampaignsAverageBudgetPerDay=async(idcampaign)=>
+      {
+
+        let resultquery;
+  
+          let queryinsert = `
+  
+          DECLARE @CampaignID INT = ${idcampaign};
+          DECLARE @AverageBudgetPerDay DECIMAL(10, 2);
+
+          SELECT @AverageBudgetPerDay = Budget / NULLIF(DATEDIFF(DAY, StartDate, EndDate), 0)
+          FROM MarketingCampaigns
+          WHERE CampaignID = @CampaignID;
+
+          SELECT @AverageBudgetPerDay AS AverageBudgetPerDay;
+     
+          `
+          let pool = await Conection.conection();
+          const result = await pool.request()
+           .query(queryinsert)
+           resultquery = result.recordset[0].AverageBudgetPerDay;
+           return resultquery;
+      }
+      static  getMarketingCampaignsWithLargerBudget=async(top)=>
+      {
+
+        let arrayn=[];
+  
+          let queryinsert = `
+  
+          DECLARE @top INT = ${top};
+
+          SELECT TOP (@top) 
+          MC.CampaignID, 
+          MC.CampaignName, 
+          MC.StartDate,
+          MC.EndDate,
+          MC.Budget
+          FROM MarketingCampaigns MC
+          ORDER BY Budget DESC;
+     
+          `
+          let pool = await Conection.conection();
+          const result = await pool.request()
+           .query(queryinsert)
+           for (let re of result.recordset) {
+             let dtoMarketingCampaigns = new DTOMarketingCampaigns();   
+             this.getInformation(dtoMarketingCampaigns,re);
+             arrayn.push(dtoMarketingCampaigns);
+          }
+           return arrayn;
+      }
+
+      static  getMarketingCampaignsByDate=async(StartDate,EndDate)=>
+      {
+
+        let arrayn=[];
+  
+          let queryinsert = `
+  
+          DECLARE @StartDate DATE = '${StartDate}';
+          DECLARE @EndDate DATE = '${EndDate}';
+
+          SELECT 
+          MC.CampaignID, 
+          MC.CampaignName, 
+          MC.StartDate,
+          MC.EndDate,
+          MC.Budget
+          FROM MarketingCampaigns MC
+          WHERE StartDate >= @StartDate AND EndDate <= @EndDate;
+     
+          `
+          let pool = await Conection.conection();
+          const result = await pool.request()
+           .query(queryinsert)
+           for (let re of result.recordset) {
+             let dtoMarketingCampaigns = new DTOMarketingCampaigns();   
+             this.getInformation(dtoMarketingCampaigns,re);
+             arrayn.push(dtoMarketingCampaigns);
+          }
+           return arrayn;
+      }
+
+      static  getMarketingCampaignsDurationAverageCampaigns=async()=>
+      {
+
+        let resultquery;
+  
+          let queryinsert = `
+  
+          DECLARE @AverageDuration INT;
+
+          SELECT @AverageDuration = AVG(DATEDIFF(DAY, StartDate, EndDate))
+          FROM MarketingCampaigns;
+      
+          SELECT @AverageDuration AS AverageDurationInDays;
+     
+          `
+          let pool = await Conection.conection();
+          const result = await pool.request()
+           .query(queryinsert)
+           resultquery = result.recordset[0].AverageDurationInDays;
+           return resultquery;
+      }
+
   //GET INFORMATION
                 
   static getInformation(dtoMarketingCampaigns, result) {

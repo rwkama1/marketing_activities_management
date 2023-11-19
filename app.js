@@ -242,4 +242,50 @@ const { DTOMarketingCampaigns } = require("./entity/DTOMarketingCampaigns");
         //     }
         //     getMarketingCampaignsTotalCost().then()
 
+
+        
+        // async function getMarketingCampaignsAverageBudgetPerDay() {
+        //     let getMarketingCampaignsAverageBudgetPerDay =
+        //     await DataMarketingCampaigns.getMarketingCampaignsAverageBudgetPerDay(3);
+             
+        //     console.log(getMarketingCampaignsAverageBudgetPerDay);
+
+        //     }
+        //     getMarketingCampaignsAverageBudgetPerDay().then()
+
+
+        //  async function getMarketingCampaignsWithLargerBudget() {
+        //     let getMarketingCampaignsWithLargerBudget =
+        //     await DataMarketingCampaigns.getMarketingCampaignsWithLargerBudget(5);
+             
+        //     console.log(getMarketingCampaignsWithLargerBudget);
+
+        //     }
+        //     getMarketingCampaignsWithLargerBudget().then()
+
+        //    async function getMarketingCampaignsByDate() {
+
+        //      let StartDate = `2023-12-02` ;
+        //      let EndDate = `2023-12-19` ;
+
+        //     let getMarketingCampaignsByDate =
+        //     await DataMarketingCampaigns.getMarketingCampaignsByDate(StartDate,EndDate);
+             
+        //     console.log(getMarketingCampaignsByDate);
+
+        //     }
+        //     getMarketingCampaignsByDate().then()
+
+        
+        //    async function getMarketingCampaignsDurationAverageCampaigns() {
+
+
+        //     let getMarketingCampaignsDurationAverageCampaigns =
+        //     await DataMarketingCampaigns.getMarketingCampaignsDurationAverageCampaigns();
+             
+        //     console.log(getMarketingCampaignsDurationAverageCampaigns);
+
+        //     }
+        //     getMarketingCampaignsDurationAverageCampaigns().then()
+
 //#endregion MARKETING CAMPAIGNS 
