@@ -104,51 +104,7 @@ class DataMarketingCampaigns
           return resultquery;
           
       }
-      static updateMarketingCampaignEndDate=async(idcampaign,EndDate)=>
-      {
-         
-          let resultquery;
-          let queryinsert = `
-          
-          declare @CampaignID int = ${idcampaign};
-          DECLARE @EndDate DATE = '${EndDate}';
-          
-
-          IF NOT EXISTS (SELECT CampaignID 
-            FROM MarketingCampaigns WHERE CampaignID = @CampaignID)
-         BEGIN
-                    SELECT -1 AS notexistmarketingcampaign
-                    return;
-         END
-         IF @EndDate <= (SELECT StartDate FROM MarketingCampaigns WHERE CampaignID = @CampaignID)
-            BEGIN
-                    SELECT -2 AS DateError
-                    RETURN;
-          END
-
-          UPDATE MarketingCampaigns SET
-          EndDate = @EndDate
-          WHERE CampaignID = @CampaignID;
- 
-          select 1 as updatesucess
-       
-            `;
-            let pool = await Conection.conection();
-              const result = await pool.request()
-              .query(queryinsert)
-              resultquery = result.recordset[0].notexistmarketingcampaign;
-              if(resultquery===undefined)
-              {
-                 resultquery = result.recordset[0].updatesucess;
-                 if(resultquery===undefined)
-                {
-                    resultquery = result.recordset[0].DateError;
-                }
-              }
-          pool.close();
-          return resultquery;
-          
-      }
+    
 
       //GET
       static  getMarketingCampaignById=async(idcampaign)=>

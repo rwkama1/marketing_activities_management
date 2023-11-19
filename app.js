@@ -1,8 +1,10 @@
 
 
 const { DataCustomer } = require("./data/DataCustomer");
+const { DataMarketingActivities } = require("./data/DataMarketingActivities");
 const { DataMarketingCampaigns } = require("./data/DataMarketingCampaigns");
 const { DTOCustomer } = require("./entity/DTOCustomer");
+const { DTOMarketingActivities } = require("./entity/DTOMarketingActivities");
 const { DTOMarketingCampaigns } = require("./entity/DTOMarketingCampaigns");
 //#region CUSTOMER
     // async function registerCustomer() {
@@ -170,26 +172,6 @@ const { DTOMarketingCampaigns } = require("./entity/DTOMarketingCampaigns");
 // updateMarketingCampaignNameBudget().then()
 
 
-// async function updateMarketingCampaignEndDate() {
-
-//     let idcampaign = 7;
-//     let EndDate = `2023-12-30` ;
-   
-
-//     let updateMarketingCampaignEndDate =
-//      await DataMarketingCampaigns
-//      .updateMarketingCampaignEndDate(idcampaign,EndDate);
-//     if (updateMarketingCampaignEndDate===-1) {
-//         throw new
-//          Error("The Campaign does not exists");
-//     }
-//     if (updateMarketingCampaignEndDate===-2) {
-//         throw new
-//         Error("The End Date must be higher than Start Date");
-//     }
-//     console.log("MarketingCampaigns updated successfully");
-// }
-// updateMarketingCampaignEndDate().then()
 
 
     //   async function getMarketingCampaignById() {
@@ -289,3 +271,80 @@ const { DTOMarketingCampaigns } = require("./entity/DTOMarketingCampaigns");
         //     getMarketingCampaignsDurationAverageCampaigns().then()
 
 //#endregion MARKETING CAMPAIGNS 
+//#region MARKETING ACTIVITIES
+
+//  async function registerMarketingActivities() {
+//   for (let index = 1; index < 8; index++) {
+//             let dtoMarketingActivities = new DTOMarketingActivities();
+//             dtoMarketingActivities.ActivityName = "ActivityName" + index.toString();
+//             dtoMarketingActivities.ActivityDescription = "ActivityDescription" + index.toString();
+//             dtoMarketingActivities.CampaignID = 0+index;
+//             dtoMarketingActivities.StartDate = `2023-12-0${index}` ;
+//             dtoMarketingActivities.EndDate = `2023-12-1${index}`;
+            
+
+//             let registerMarketingActivities = await DataMarketingActivities.registerMarketingActivities(dtoMarketingActivities);
+//             if (registerMarketingActivities===-1) {
+//                 throw new
+//                  Error("The End Date must be higher than Start Date");
+//             }
+//             if (registerMarketingActivities===-2) {
+//                 throw new
+//                Error("The Campaign does not exists");
+//             }
+//             if (registerMarketingActivities===-3) {
+//                 throw new
+//                Error("Marketing Activities dates must be within the campaign date range");
+//             }
+//                 console.log("Marketing Activity registered successfully");
+//         }
+//     }
+//     registerMarketingActivities().then()
+
+// async function updateMarketingActivityNameDesc() {
+
+//     let idactivity = 6;
+//     let name = "nameupdate";
+//     let description ="descriptionupdate";
+
+//     let updateMarketingActivityNameDesc =
+//      await DataMarketingActivities
+//      .updateMarketingActivityNameDesc(idactivity,name,description);
+//     if (updateMarketingActivityNameDesc===-1) {
+//         throw new
+//          Error("The Activity does not exists");
+//     }
+   
+//     console.log("Activity updated successfully");
+// }
+// updateMarketingActivityNameDesc().then()
+
+    //  async function getMarketingActivityById() {
+
+
+    //  let getMarketingActivityById =
+    //      await DataMarketingActivities.getMarketingActivityById(5);
+    //      if (getMarketingActivityById===-1) {
+    //             throw new
+    //            Error("The Activity does not exists");
+    //         }
+    //   console.log(getMarketingActivityById);
+
+    //      }
+
+    //      getMarketingActivityById().then()
+
+
+    //   async function getMarketingActivityByCampaign() {
+
+
+    //  let getMarketingActivityByCampaign =
+    //      await DataMarketingActivities.getMarketingActivityByCampaign(5);
+        
+    //   console.log(getMarketingActivityByCampaign);
+
+    //      }
+    //      getMarketingActivityByCampaign().then()
+
+
+//#endregion MARKETING ACTIVITIES

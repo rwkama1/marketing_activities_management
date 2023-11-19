@@ -79,3 +79,36 @@ SELECT * FROM   MarketingActivities;
 SELECT * FROM   ActivityResults;
 SELECT * FROM   MarketingMedia;
 SELECT * FROM  ActivityMedia;
+
+ DECLARE @ActivityName VARCHAR(100) = 'ActivityName';
+        DECLARE @ActivityDescription VARCHAR(500) = 'ActivityDescription';
+        DECLARE @StartDate DATE = '2023-12-05';
+        DECLARE @EndDate DATE = '2023-12-12';
+        DECLARE @CampaignID INT = 5;
+      
+       
+        IF @EndDate <= @StartDate
+          BEGIN
+                  SELECT -1 AS DateError
+                  RETURN;
+        END
+        IF NOT EXISTS (SELECT CampaignID FROM MarketingCampaigns WHERE CampaignID = @CampaignID)
+        BEGIN
+            SELECT -2 AS CampaignNotExist; 
+            RETURN;
+        END
+        IF NOT EXISTS (SELECT CampaignID
+            FROM MarketingCampaigns
+            WHERE CampaignID = @CampaignID
+              AND @StartDate >= StartDate
+              AND @EndDate <= EndDate)
+            BEGIN
+                SELECT -3 AS DateRangeError; 
+                RETURN;
+            END
+           
+      INSERT INTO MarketingCampaigns 
+      (ActivityName,ActivityDescription, StartDate, EndDate, CampaignID,Statuss)
+      VALUES (@ActivityName,@ActivityDescription, @StartDate, @EndDate, @CampaignID,'');
+                
+      SELECT 1 AS insertsuccess;
