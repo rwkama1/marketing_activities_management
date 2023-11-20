@@ -357,6 +357,36 @@ class DataMarketingCampaigns
            return resultquery;
       }
 
+      static  getMarketingCampaignsWithoutActivities=async()=>
+      {
+
+        let arrayn=[];
+  
+          let queryinsert = `
+  
+          SELECT 
+          MC.CampaignID, 
+          MC.CampaignName, 
+          MC.StartDate,
+          MC.EndDate,
+          MC.Budget
+        
+          FROM MarketingCampaigns MC
+          LEFT JOIN MarketingActivities A ON MC.CampaignID = A.CampaignID
+          WHERE A.CampaignID IS NULL;
+     
+          `
+          let pool = await Conection.conection();
+          const result = await pool.request()
+           .query(queryinsert)
+           for (let re of result.recordset) {
+             let dtoMarketingCampaigns = new DTOMarketingCampaigns();   
+             this.getInformation(dtoMarketingCampaigns,re);
+             arrayn.push(dtoMarketingCampaigns);
+          }
+           return arrayn;
+      }
+
   //GET INFORMATION
                 
   static getInformation(dtoMarketingCampaigns, result) {

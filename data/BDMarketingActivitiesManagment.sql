@@ -19,7 +19,7 @@ CREATE TABLE MarketingCampaigns (
     CampaignName VARCHAR(100) not null,
     StartDate DATE not null,
     EndDate DATE not null,
-    Budget DECIMAL(10, 2) not null
+    Budget DECIMAL(10, 2) null
 );
 
 go
@@ -31,7 +31,7 @@ CREATE TABLE MarketingActivities (
     StartDate DATE not null,
     EndDate DATE not null,
     CampaignID INT FOREIGN KEY REFERENCES MarketingCampaigns(CampaignID) not null,
-    Statuss VARCHAR(20) not null
+    Budget decimal(10,2) not null
 );
 go
 CREATE TABLE ActivityParticipants (
@@ -80,35 +80,27 @@ SELECT * FROM   ActivityResults;
 SELECT * FROM   MarketingMedia;
 SELECT * FROM  ActivityMedia;
 
- DECLARE @ActivityName VARCHAR(100) = 'ActivityName';
-        DECLARE @ActivityDescription VARCHAR(500) = 'ActivityDescription';
-        DECLARE @StartDate DATE = '2023-12-05';
-        DECLARE @EndDate DATE = '2023-12-12';
-        DECLARE @CampaignID INT = 5;
-      
-       
-        IF @EndDate <= @StartDate
-          BEGIN
-                  SELECT -1 AS DateError
-                  RETURN;
-        END
-        IF NOT EXISTS (SELECT CampaignID FROM MarketingCampaigns WHERE CampaignID = @CampaignID)
-        BEGIN
-            SELECT -2 AS CampaignNotExist; 
-            RETURN;
-        END
-        IF NOT EXISTS (SELECT CampaignID
-            FROM MarketingCampaigns
-            WHERE CampaignID = @CampaignID
-              AND @StartDate >= StartDate
-              AND @EndDate <= EndDate)
-            BEGIN
-                SELECT -3 AS DateRangeError; 
-                RETURN;
-            END
-           
-      INSERT INTO MarketingCampaigns 
-      (ActivityName,ActivityDescription, StartDate, EndDate, CampaignID,Statuss)
-      VALUES (@ActivityName,@ActivityDescription, @StartDate, @EndDate, @CampaignID,'');
-                
-      SELECT 1 AS insertsuccess;
+
+	  ALTER TABLE MarketingActivities
+
+	  ALTER COLUMN Budget decimal(10,2) not  null;
+
+	  update MarketingActivities set budget=10000
+
+	   DECLARE @StartDate DATE = '2023-12-09';
+          DECLARE @EndDate DATE = '2023-12-19';
+
+          SELECT 
+          A.ActivityID, 
+          A.ActivityName, 
+          A.ActivityDescription,
+          A.StartDate,
+          A.EndDate,
+          A.CampaignID,
+          A.Budget,
+          C.CampaignName
+      FROM 
+          MarketingActivities A
+      JOIN 
+          MarketingCampaigns C ON A.CampaignID = C.CampaignID
+          WHERE StartDate >= @StartDate AND EndDate <= @EndDate;

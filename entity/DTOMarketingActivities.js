@@ -8,8 +8,9 @@ class DTOMarketingActivities
     EndDate=new Date();
 
     CampaignID=0;
-    CampaignName=""
+    CampaignName="";
 
+    Budget=0;
  
     
 
