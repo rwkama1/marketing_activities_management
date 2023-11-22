@@ -357,23 +357,69 @@ class DataMarketingCampaigns
            return resultquery;
       }
 
-      static  getMarketingCampaignsWithoutActivities=async()=>
+      static  CalculateROIForCampaign=async(CampaignID)=>
+      {
+
+        let resultquery;
+  
+          let queryinsert = `
+
+          DECLARE @CampaignID INT = ${CampaignID};
+          DECLARE @TotalRevenue DECIMAL(10, 2);
+          DECLARE @CampaignBudget DECIMAL(10, 2);
+      
+          SELECT @TotalRevenue = SUM(Revenue)
+          FROM ActivityResults
+          WHERE ActivityID IN (SELECT ActivityID FROM MarketingActivities WHERE CampaignID = @CampaignID);
+      
+          SELECT @CampaignBudget = Budget
+          FROM MarketingCampaigns
+          WHERE CampaignID = @CampaignID;
+      
+          IF @CampaignBudget IS NOT NULL AND @CampaignBudget > 0
+          BEGIN
+              SELECT (@TotalRevenue - @CampaignBudget) / @CampaignBudget AS ROI;
+          END
+          ELSE
+          BEGIN
+              select -1 as BudgetError
+          END
+     
+          `
+          let pool = await Conection.conection();
+          const result = await pool.request()
+          .query(queryinsert)
+          resultquery = result.recordset[0].BudgetError;
+          if(resultquery===undefined)
+          {
+        
+               resultquery = result.recordset[0].ROI;
+          }
+      pool.close();
+      return resultquery;
+      }
+
+      static  getTopPerformingCampaigns=async(top)=>
       {
 
         let arrayn=[];
   
           let queryinsert = `
   
-          SELECT 
+          DECLARE @top INT = ${top};
+
+          SELECT TOP (@top) 
           MC.CampaignID, 
           MC.CampaignName, 
           MC.StartDate,
           MC.EndDate,
-          MC.Budget
-        
+          MC.Budget,
+          SUM(AR.Revenue) AS TotalRevenue
           FROM MarketingCampaigns MC
-          LEFT JOIN MarketingActivities A ON MC.CampaignID = A.CampaignID
-          WHERE A.CampaignID IS NULL;
+          INNER JOIN MarketingActivities A ON MC.CampaignID = A.CampaignID
+          LEFT JOIN ActivityResults AR ON A.ActivityID = AR.ActivityID
+          GROUP BY MC.CampaignID, MC.CampaignName, MC.StartDate, MC.EndDate, MC.Budget
+          ORDER BY TotalRevenue DESC;
      
           `
           let pool = await Conection.conection();
@@ -382,11 +428,15 @@ class DataMarketingCampaigns
            for (let re of result.recordset) {
              let dtoMarketingCampaigns = new DTOMarketingCampaigns();   
              this.getInformation(dtoMarketingCampaigns,re);
+             dtoMarketingCampaigns.TotalRevenue = re.TotalRevenue;
              arrayn.push(dtoMarketingCampaigns);
           }
            return arrayn;
       }
 
+
+//         PRINT 'Unable to calculate ROI. ';
+     
   //GET INFORMATION
                 
   static getInformation(dtoMarketingCampaigns, result) {

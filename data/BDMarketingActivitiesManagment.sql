@@ -45,8 +45,9 @@ CREATE TABLE ActivityResults (
     ResultID INT PRIMARY KEY Identity(1,1)  NOT NULL,
     ActivityID INT FOREIGN KEY REFERENCES MarketingActivities(ActivityID)  NOT NULL,
     ReportDate DATE  NOT NULL,
-    ResultDescription varchar(500) not null
-);
+    ResultDescription varchar(500) not null,
+	Revenue decimal(10,2) not null
+); 
 
 go
 CREATE TABLE MarketingMedia (
@@ -60,7 +61,8 @@ CREATE TABLE ActivityMedia (
     PRIMARY KEY (ActivityID, MediaID)
 );
 go
--- Drop Table Statements
+
+
 DROP TABLE Customers;
 DROP TABLE  MarketingCampaigns;
 DROP TABLE  MarketingActivities;
@@ -81,26 +83,21 @@ SELECT * FROM   MarketingMedia;
 SELECT * FROM  ActivityMedia;
 
 
-	  ALTER TABLE MarketingActivities
+ALTER TABLE ActivityResults
+ADD Revenue decimal(10,2) not null
 
-	  ALTER COLUMN Budget decimal(10,2) not  null;
 
-	  update MarketingActivities set budget=10000
+  DECLARE @top INT = 5;
 
-	   DECLARE @StartDate DATE = '2023-12-09';
-          DECLARE @EndDate DATE = '2023-12-19';
-
-          SELECT 
-          A.ActivityID, 
-          A.ActivityName, 
-          A.ActivityDescription,
-          A.StartDate,
-          A.EndDate,
-          A.CampaignID,
-          A.Budget,
-          C.CampaignName
-      FROM 
-          MarketingActivities A
-      JOIN 
-          MarketingCampaigns C ON A.CampaignID = C.CampaignID
-          WHERE StartDate >= @StartDate AND EndDate <= @EndDate;
+          SELECT TOP (@top) 
+          MC.CampaignID, 
+          MC.CampaignName, 
+          MC.StartDate,
+          MC.EndDate,
+          MC.Budget,
+          SUM(AR.Revenue) AS TotalRevenue
+          FROM MarketingCampaigns MC
+          INNER JOIN MarketingActivities A ON C.CampaignID = A.CampaignID
+          LEFT JOIN ActivityResults AR ON A.ActivityID = AR.ActivityID
+          GROUP BY MC.CampaignID, MC.CampaignName, MC.StartDate, MC.EndDate, MC.Budget
+          ORDER BY TotalRevenue DESC;

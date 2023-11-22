@@ -1,6 +1,7 @@
 
 
 const { DataActivityParticipant } = require("./data/DataActivityParticipants");
+const { DataActivityResult } = require("./data/DataActivityResults");
 const { DataCustomer } = require("./data/DataCustomer");
 const { DataMarketingActivities } = require("./data/DataMarketingActivities");
 const { DataMarketingCampaigns } = require("./data/DataMarketingCampaigns");
@@ -120,6 +121,17 @@ const { DTOMarketingCampaigns } = require("./entity/DTOMarketingCampaigns");
         //         }
         //         getCustomerByName().then()
 
+
+        //   async function getCustomerEngagementMetrics() {
+        //         let getCustomerEngagementMetrics =
+        //         await DataCustomer.getCustomerEngagementMetrics(5);
+
+        //         console.log(getCustomerEngagementMetrics);
+
+        //         }
+        //         getCustomerEngagementMetrics().then()
+
+
 //#endregion CUSTOMER
 
 //#region MARKETING CAMPAIGNS
@@ -173,6 +185,32 @@ const { DTOMarketingCampaigns } = require("./entity/DTOMarketingCampaigns");
 // updateMarketingCampaignNameBudget().then()
 
 
+
+
+//  async function CalculateROIForCampaign() {
+
+//         let idcampaign=5;
+
+//             let CalculateROIForCampaign = await DataMarketingCampaigns.CalculateROIForCampaign(idcampaign);
+//             if (CalculateROIForCampaign===-1) {
+//                 throw new
+//                  Error("Campaign budget is missing or zero.");
+//             }
+
+//          console.log(CalculateROIForCampaign);
+       
+//     }
+//     CalculateROIForCampaign().then()
+
+
+    //   async function getTopPerformingCampaigns() {
+    //             let getTopPerformingCampaigns =
+    //             await DataMarketingCampaigns.getTopPerformingCampaigns(4);
+
+    //             console.log(getTopPerformingCampaigns);
+
+    //             }
+    //             getTopPerformingCampaigns().then()
 
 
     //   async function getMarketingCampaignById() {
@@ -461,27 +499,104 @@ const { DTOMarketingCampaigns } = require("./entity/DTOMarketingCampaigns");
 
 //#region ACTIVITY PARTICIPANT
 
-async function registerActivityParticipant() {
+// async function registerActivityParticipant() {
 
-        for (let index = 1; index < 8; index++) {
+//         for (let index = 1; index < 8; index++) {
 
           
-          let ActivityID = index;
-          let CustomerID = index;
+//           let ActivityID = index;
+//           let CustomerID = index;
         
-            let registerActivityParticipant = await DataActivityParticipant.registerActivityParticipant(ActivityID,CustomerID);
-            if (registerActivityParticipant===-1) {
-                throw new
-                 Error("ActivityNotExist");
-            }
-            if (registerActivityParticipant===-2) {
-                throw new
-                 Error("CustomerNotExist");
-            }
+//             let registerActivityParticipant = await DataActivityParticipant.registerActivityParticipant(ActivityID,CustomerID);
+//             if (registerActivityParticipant===-1) {
+//                 throw new
+//                  Error("ActivityNotExist");
+//             }
+//             if (registerActivityParticipant===-2) {
+//                 throw new
+//                  Error("CustomerNotExist");
+//             }
              
-                console.log("Activity Participant registered successfully");
-        }
-    }
-    registerActivityParticipant().then()
+//                 console.log("Activity Participant registered successfully");
+//         }
+//     }
+//     registerActivityParticipant().then()
+
+
+
+// async function deleteActivityParticipant() {
+
+    
+
+          
+//           let ParticipantID = 8;
+          
+        
+//             let deleteActivityParticipant = await DataActivityParticipant.deleteActivityParticipant(ParticipantID);
+//             if (deleteActivityParticipant===-1) {
+//                 throw new
+//                  Error("ParticipantNotExist");
+//             }
+           
+//      console.log("Activity Participant deleted successfully");
+     
+//     }
+//     deleteActivityParticipant().then()
+
+
+
+    //    async function getActivityParticipantByActivity() {
+
+            
+
+    //         let getActivityParticipantByActivity =
+    //         await DataActivityParticipant.getActivityParticipantByActivity(5);
+
+    //         console.log(getActivityParticipantByActivity);
+
+    //         }
+    //         getActivityParticipantByActivity().then()
+
+
+            
+    //    async function getActivityParticipantByCustomer() {
+
+            
+
+    //     let getActivityParticipantByCustomer =
+    //     await DataActivityParticipant.getActivityParticipantByCustomer(1);
+
+    //     console.log(getActivityParticipantByCustomer);
+
+    //     }
+    //     getActivityParticipantByCustomer().then()
 
 //#endregion ACTIVITY PARTICIPANT
+
+
+//#region ACTIVITY RESULT
+
+// async function registerActivityParticipant() {
+
+//         for (let index = 1; index < 8; index++) {
+
+         
+//           let ActivityID = index;
+//           let ReportDate = `2023-12-21`;
+//           let ResultDescription = "ResultDescription"+index;
+//           let Revenue=11000+index
+//             let registerResult = await DataActivityResult
+//             .registerResult(ActivityID,ReportDate,ResultDescription,Revenue);
+//             if (registerResult===-1) {
+//                 throw new
+//                  Error("ActivityNotExist");
+//             }
+
+//                 console.log("Result registered successfully");
+//         }
+//     }
+//     registerActivityParticipant().then()
+
+
+
+//#endregion ACTIVITY RESULT

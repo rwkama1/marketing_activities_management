@@ -338,7 +338,44 @@ class DataCustomer
      
          
      }
+     static  getCustomerEngagementMetrics=async(CustomerID)=>
+     {
 
+
+         let arrayn=[];
+ 
+         let queryinsert = `
+         declare @CustomerID int = ${CustomerID};
+             SELECT 
+                 C.CustomerID, 
+                 C.CustomerName,
+                 C.EmailCustomer,
+                 C.PhoneCustomer,
+                C.AddressCustomer,
+            COUNT(DISTINCT AP.ActivityID) AS ParticipatedActivities,
+             SUM(AR.Revenue) AS TotalRevenue
+            FROM Customers C
+            LEFT JOIN ActivityParticipants AP ON C.CustomerID = AP.CustomerID
+            LEFT JOIN ActivityResults AR ON AP.ActivityID = AR.ActivityID
+            WHERE C.CustomerID = @CustomerID
+            GROUP BY C.CustomerID, C.CustomerName,C.EmailCustomer,C.PhoneCustomer,C.AddressCustomer;
+        
+ 
+         `
+         let pool = await Conection.conection();
+         const result = await pool.request()
+          .query(queryinsert)
+          for (let re of result.recordset) {
+            let dtocustomer = new DTOCustomer();   
+            this.getInformation(dtocustomer,re);
+            dtocustomer.ParticipatedActivities = re.ParticipatedActivities;
+            dtocustomer.TotalRevenue = re.TotalRevenue;
+            arrayn.push(dtocustomer);
+         }
+          return arrayn;
+     
+         
+     }
 
         //GET INFORMATION
                 
