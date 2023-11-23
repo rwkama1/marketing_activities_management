@@ -82,22 +82,3 @@ SELECT * FROM   ActivityResults;
 SELECT * FROM   MarketingMedia;
 SELECT * FROM  ActivityMedia;
 
-
-ALTER TABLE ActivityResults
-ADD Revenue decimal(10,2) not null
-
-
-  DECLARE @top INT = 5;
-
-          SELECT TOP (@top) 
-          MC.CampaignID, 
-          MC.CampaignName, 
-          MC.StartDate,
-          MC.EndDate,
-          MC.Budget,
-          SUM(AR.Revenue) AS TotalRevenue
-          FROM MarketingCampaigns MC
-          INNER JOIN MarketingActivities A ON MC.CampaignID = A.CampaignID
-          LEFT JOIN ActivityResults AR ON A.ActivityID = AR.ActivityID
-          GROUP BY MC.CampaignID, MC.CampaignName, MC.StartDate, MC.EndDate, MC.Budget
-          ORDER BY TotalRevenue DESC;
