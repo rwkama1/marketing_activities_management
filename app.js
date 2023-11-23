@@ -776,15 +776,15 @@ const { DTOMarketingCampaigns } = require("./entity/DTOMarketingCampaigns");
 //             getMediaByActivity().then()
 
 
-  async function getMediaPerformanceMetrics() {
+//   async function getMediaPerformanceMetrics() {
 
-            let getMediaPerformanceMetrics =
-            await DataMarketingMedia.getMediaPerformanceMetrics(5);
+//             let getMediaPerformanceMetrics =
+//             await DataMarketingMedia.getMediaPerformanceMetrics(5);
 
-            console.log(getMediaPerformanceMetrics);
+//             console.log(getMediaPerformanceMetrics);
 
-            }
-            getMediaPerformanceMetrics().then()
+//             }
+//             getMediaPerformanceMetrics().then()
 
 
 
