@@ -1,4 +1,4 @@
-class DTOActivityParticipant
+class DTOActivityResult
 {
 
     ResultID  =0;
@@ -16,4 +16,4 @@ class DTOActivityParticipant
     }
      
 }
-module.exports = { DTOActivityParticipant };
+module.exports = { DTOActivityResult };

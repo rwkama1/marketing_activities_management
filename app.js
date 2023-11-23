@@ -1,10 +1,12 @@
 
 
+const { DataActivityMedia } = require("./data/DataActivityMedia");
 const { DataActivityParticipant } = require("./data/DataActivityParticipants");
 const { DataActivityResult } = require("./data/DataActivityResults");
 const { DataCustomer } = require("./data/DataCustomer");
 const { DataMarketingActivities } = require("./data/DataMarketingActivities");
 const { DataMarketingCampaigns } = require("./data/DataMarketingCampaigns");
+const { DataMarketingMedia } = require("./data/DataMarketingMedia");
 const { DTOCustomer } = require("./entity/DTOCustomer");
 const { DTOMarketingActivities } = require("./entity/DTOMarketingActivities");
 const { DTOMarketingCampaigns } = require("./entity/DTOMarketingCampaigns");
@@ -201,6 +203,26 @@ const { DTOMarketingCampaigns } = require("./entity/DTOMarketingCampaigns");
        
 //     }
 //     CalculateROIForCampaign().then()
+
+//  async function getCampaignBudgetUtilization() {
+
+//         let idcampaign=5;
+
+//             let getCampaignBudgetUtilization = await DataMarketingCampaigns.getCampaignBudgetUtilization(idcampaign);
+//             if (getCampaignBudgetUtilization===-1) {
+//                 throw new
+//                  Error("Campaign budget is missing or zero.");
+//             }
+
+//          console.log(getCampaignBudgetUtilization);
+       
+//     }
+//     getCampaignBudgetUtilization().then()
+
+
+
+
+
 
 
     //   async function getTopPerformingCampaigns() {
@@ -597,6 +619,173 @@ const { DTOMarketingCampaigns } = require("./entity/DTOMarketingCampaigns");
 //     }
 //     registerActivityParticipant().then()
 
+//   async function getResultById() {
+//      let getResultById =
+//         await DataActivityResult.getResultById(1);
+
+//         console.log(getResultById);
+
+//         }
+//         getResultById().then()
+
+    //  async function getResultByDates() {
+
+    //          let StartDate = `2023-12-02` ;
+    //          let EndDate = `2023-12-28` ;
+
+    //         let getResultByDates =
+    //         await DataActivityResult.getResultByDates(StartDate,EndDate);
+
+    //         console.log(getResultByDates);
+
+    //         }
+    //         getResultByDates().then()
+
+
+
+    //  async function getResultByCampaign() {
+
+        
+    //          let idcampaign = 4 ;
+
+    //         let getResultByCampaign =
+    //         await DataActivityResult.getResultByCampaign(idcampaign);
+
+    //         console.log(getResultByCampaign);
+
+    //         }
+    //         getResultByCampaign().then()
+
+
+
+    //  async function getResultByCustomer() {
+
+        
+    //          let idcustomer = 4 ;
+
+    //         let getResultByCustomer =
+    //         await DataActivityResult.getResultByCustomer(idcustomer);
+
+    //         console.log(getResultByCustomer);
+
+    //         }
+    //         getResultByCustomer().then()
 
 
 //#endregion ACTIVITY RESULT
+//#region MARKETING MEDIA
+
+// async function registerMarketingMedia() {
+
+//         for (let index = 1; index < 8; index++) {
+
+    
+//           let MediaNamee = `MediaName${index}`;
+        
+//             let registerMarketingMedia = await DataMarketingMedia
+//             .registerMarketingMedia(MediaNamee);
+//          console.log("Marketing Media registered successfully");
+//         }
+//     }
+//     registerMarketingMedia().then()
+
+
+// async function updateMarketingMedia() {
+
+     
+
+//             let mediaid=1
+//           let MediaNamee = `MediaNameUpdate`;
+        
+//             let updateMarketingMedia = await DataMarketingMedia
+//             .updateMarketingMedia(mediaid,MediaNamee);
+//             if (updateMarketingMedia===-1) {
+//                 throw new
+//                  Error("MarketingMedia Not Exist");
+//             }
+//          console.log("Marketing Media updated successfully");
+       
+//     }
+//     updateMarketingMedia().then()
+
+
+//   async function getMarketingMediaById() {
+
+        
+//              let idmedia = 5 ;
+
+//             let getMarketingMediaById =
+//             await DataMarketingMedia.getMarketingMediaById(idmedia);
+
+//             console.log(getMarketingMediaById);
+
+//             }
+//             getMarketingMediaById().then()
+
+
+//   async function getMarketingMedias() {
+
+//             let getMarketingMedias =
+//             await DataMarketingMedia.getMarketingMedias();
+
+//             console.log(getMarketingMedias);
+
+//             }
+//             getMarketingMedias().then()
+
+//#endregion MARKETING MEDIA
+
+//#region ACTIVITY MEDIA
+
+// async function registerActivityMedia() {
+
+//         for (let index = 1; index < 8; index++) {
+
+    
+//           let ActivityID = index;
+//          let MediaID=index;
+
+//             let registerActivityMedia = await DataActivityMedia
+//             .registerActivityMedia(ActivityID,MediaID);
+//             if (registerActivityMedia===-1) {
+//                 throw new
+//                  Error("MarketingMedia Not Exist");
+//             }
+//             if (registerActivityMedia===-2) {
+//                 throw new
+//                  Error("MarketingActivity Not Exist");
+//             }
+//             if (registerActivityMedia===-3) {
+//                 throw new
+//                  Error("ActivityMedia already exists");
+//             }
+//          console.log("Activity Media registered successfully");
+//         }
+//     }
+//     registerActivityMedia().then()
+
+
+//   async function getMediaByActivity() {
+
+//             let getMediaByActivity =
+//             await DataMarketingMedia.getMediaByActivity(5);
+
+//             console.log(getMediaByActivity);
+
+//             }
+//             getMediaByActivity().then()
+
+
+  async function getMediaPerformanceMetrics() {
+
+            let getMediaPerformanceMetrics =
+            await DataMarketingMedia.getMediaPerformanceMetrics(5);
+
+            console.log(getMediaPerformanceMetrics);
+
+            }
+            getMediaPerformanceMetrics().then()
+
+
+
+//#endregion ACTIVITY MEDIA

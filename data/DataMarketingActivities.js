@@ -406,6 +406,8 @@ class DataMarketingActivities
            return arrayn;
       }
 
+     
+
 
 
   //GET INFORMATION

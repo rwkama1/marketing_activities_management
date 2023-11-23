@@ -434,6 +434,49 @@ class DataMarketingCampaigns
            return arrayn;
       }
 
+      static  getCampaignBudgetUtilization=async(CampaignID)=>
+      {
+
+        let resultquery;
+  
+          let queryinsert = `
+
+          DECLARE @CampaignID INT = ${CampaignID};
+          DECLARE @TotalBudget DECIMAL(10, 2);
+          DECLARE @UtilizedBudget DECIMAL(10, 2);
+      
+          SELECT @TotalBudget = Budget
+          FROM MarketingCampaigns
+          WHERE CampaignID = @CampaignID;
+      
+          SELECT @UtilizedBudget = SUM(Budget)
+          FROM MarketingActivities
+          WHERE CampaignID = @CampaignID;
+      
+          IF @TotalBudget IS NOT NULL AND @TotalBudget > 0
+          BEGIN
+              SELECT (@UtilizedBudget / @TotalBudget) * 100 AS BudgetUtilizationPercentage;
+          END
+          ELSE
+          BEGIN
+            select -1 as BudgetError
+          END
+     
+          `
+          let pool = await Conection.conection();
+          const result = await pool.request()
+          .query(queryinsert)
+          resultquery = result.recordset[0].BudgetError;
+          if(resultquery===undefined)
+          {
+        
+               resultquery = result.recordset[0].BudgetUtilizationPercentage;
+          }
+      pool.close();
+      return resultquery;
+      }
+
+
 
 //         PRINT 'Unable to calculate ROI. ';
      
